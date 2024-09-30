@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using ReactiveUI;
 
 namespace E2P.ViewModels;
-public class ViewModelBase : ObservableObject
+public class ViewModelBase : ReactiveObject
 {
 }

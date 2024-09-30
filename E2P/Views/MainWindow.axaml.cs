@@ -20,13 +20,14 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         });
     }
 
-    private async Task DoShowDialogAsync(InteractionContext<CreateCompanyViewModel, CompanyViewModel?> interaction)
+    private async Task DoShowDialogAsync(InteractionContext<CompanyViewModel,
+                                                    Company?> interaction)
     {
-        //var dialog = new CreateCompanyViewModel();
-        //dialog.DataContext = interaction.Input;
+        var dialog = new CompanyWindow();
+        dialog.DataContext = interaction.Input;
 
-        //var result = await dialog.ShowDialog<CompanyViewModel?>(this);
-        //interaction.SetOutput(result);
+        var result = await dialog.ShowDialog<Company?>(this);
+        interaction.SetOutput(result);
     }
 
     private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -35,7 +36,13 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         {
             if (dataGrid.SelectedItem is Company selectedCompany)
             {
-                //viewModel.ViewCompanyCommand.Execute(selectedCompany);
+                var excelFilesWindow = new CompanyExcelFilesWindow
+                {
+                    DataContext = new CompanyExcelFilesViewModel(selectedCompany)
+                };
+
+                excelFilesWindow.Show();
+                this.Close();
             }
         }
     }

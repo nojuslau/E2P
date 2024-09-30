@@ -1,5 +1,4 @@
 ﻿using E2P.Models;
-using E2P.Models.SearchFilters;
 using E2P.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E2P.Services
 {
-    public class CompanyService : IService<Company, CompanySearchFilters>
+    public class CompanyService : IService<Company>
     {
         private readonly ApplicationDbContext _context;
 
@@ -28,18 +27,10 @@ namespace E2P.Services
 
         public async Task<IEnumerable<Company>> GetAllAsync()
         {
-            return await _context.Companies.ToListAsync();
-        }
-
-        public async Task<Company> GetByFiltersAsync(CompanySearchFilters filters)
-        {
-            var result = await _context.Companies.FindAsync(filters);
-            if (result == null)
-            {
-                throw new Exception("No entry was found");
-            }
-
-            return result;
+            return await _context.Companies
+                .Include(c => c.ExcelFiles)
+                .Include(c => c.PDFFiles)
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(Company entity)

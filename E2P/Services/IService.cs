@@ -5,16 +5,13 @@ using System.Threading.Tasks;
 
 namespace E2P.Services
 {
-    public interface IService<T, SF> where T : class
+    public interface IService<T> where T : class
     {
         // Create
         Task<T> CreateAsync(T entity);
 
         // Read (get all entities)
         Task<IEnumerable<T>> GetAllAsync();
-
-        // Read (get entity by id)
-        Task<T> GetByFiltersAsync(SF filters);
 
         // Update
         Task<bool> UpdateAsync(T entity);

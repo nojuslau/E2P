@@ -3,8 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using E2P.AppSettingsModels;
-using E2P.Models;
-using E2P.Models.SearchFilters;
 using E2P.Persistence;
 using E2P.Services;
 using E2P.ViewModels;

@@ -16,4 +16,7 @@ public class ExcelFile : Entity
     public int CompanyId { get; set; }
     public Company Company { get; set; }
     public PDFFile? ConvertedPDFFile { get; set; }
+
+    [NotMapped]  // This ensures that this property is not mapped to the database
+    public bool IsPDFGenerated => ConvertedPDFFile != null;
 }

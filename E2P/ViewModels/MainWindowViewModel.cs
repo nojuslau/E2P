@@ -10,28 +10,37 @@ using System.Windows.Input;
 
 namespace E2P.ViewModels;
 
-public partial class MainWindowViewModel : ReactiveObject
+public partial class MainWindowViewModel : ViewModelBase
 {
-    public Interaction<CreateCompanyViewModel, Company?> ShowDialog { get; }
-    public ICommand CreateNewCompanyCommand { get; }
-    public CompanyService CompanyService { get; }
-    public List<Company> Companies { get; set; } = new();
-    public ObservableCollection<Company> FilteredCompanies { get; set; }
     private readonly CompanyService _companyService;
     private Company _selectedCompany;
     private string _searchQuery;
 
+    public event Action<Company> CompanySelected;
+
+    public Interaction<CompanyViewModel, Company?> ShowDialog { get; }
+    public ObservableCollection<Company> FilteredCompanies { get; set; }
+    public List<Company> Companies { get; set; } = new();
+    public CompanyService CompanyService { get; }
+    public ICommand CreateNewCompanyCommand { get; }
+
     public MainWindowViewModel(CompanyService companyService)
     {
         _companyService = companyService;
-        ShowDialog = new Interaction<CreateCompanyViewModel, Company?> ();
+        ShowDialog = new Interaction<CompanyViewModel, Company?> ();
         LoadCompanies();
 
         CreateNewCompanyCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            var company = new Company();
-
+            var company = new CompanyViewModel();
             var result = await ShowDialog.Handle(company);
+
+            if (result != null)
+            {
+                await _companyService.CreateAsync(result);
+                Companies.Add(result);
+                FilterCompanies();
+            }
         });
     }
 
@@ -70,11 +79,7 @@ public partial class MainWindowViewModel : ReactiveObject
         get => _selectedCompany;
         set
         {
-            //this.RaiseAndSetIfChanged(ref _selectedCompany, value);
-            //if (_selectedCompany != null)
-            //{
-            //    ViewCompanyCommand.Execute(_selectedCompany);
-            //}
+            CompanySelected?.Invoke(_selectedCompany);
         }
     }
 }

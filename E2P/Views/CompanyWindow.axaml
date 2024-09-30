@@ -1,0 +1,50 @@
+<Window
+    x:Class="E2P.CompanyWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:E2P.Views"
+    xmlns:vm="clr-namespace:E2P.ViewModels"
+    Title="Create New Company"
+    Width="500"
+    Height="400"
+    d:DesignHeight="450"
+    d:DesignWidth="500"
+    x:DataType="vm:CompanyViewModel"
+    Background="Transparent"
+    ExtendClientAreaToDecorationsHint="True"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <DockPanel>
+        <StackPanel Margin="20,20,20,20" DockPanel.Dock="Top">
+            <TextBlock
+                Margin="0,0,0,10"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="Create New Company" />
+
+            <TextBlock Text="Name" />
+            <TextBox Text="{Binding Company.Name}" />
+
+            <TextBlock Text="City" />
+            <TextBox Text="{Binding Company.City}" />
+
+            <TextBlock Text="Country" />
+            <TextBox Text="{Binding Company.Country}" />
+
+            <TextBlock Text="Phone Number" />
+            <TextBox Text="{Binding Company.PhoneNumber}" />
+
+
+            <TextBlock Text="Email" />
+            <TextBox Text="{Binding Company.Email}" />
+        </StackPanel>
+        <Button
+            HorizontalAlignment="Center"
+            Command="{Binding CreateNewCompanyCommand}"
+            Content="Create"
+            DockPanel.Dock="Bottom" />
+    </DockPanel>
+</Window>

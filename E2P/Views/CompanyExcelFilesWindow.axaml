@@ -1,52 +1,44 @@
 <Window
-    x:Class="E2P.Views.MainWindow"
+    x:Class="E2P.CompanyExcelFilesWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:E2P.Views"
-    xmlns:vm="using:E2P.ViewModels"
-    Title="E2P"
-    x:DataType="vm:MainWindowViewModel"
+    xmlns:vm="clr-namespace:E2P.ViewModels"
+    Title="CompanyExcelFilesWindow"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:CompanyExcelFilesViewModel"
     Background="Transparent"
     ExtendClientAreaToDecorationsHint="True"
-    Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
-
     <Grid ColumnDefinitions=".1*, 0.9*" RowDefinitions="0.1*, 0.9*">
         <Panel
             Grid.Row="0"
             Grid.Column="1"
             Margin="0,40,40,5">
+            <TextBlock
+                Margin="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="{Binding Company.Name}" />
             <TextBox
                 Width="300"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Search Company..." />
-            <Button
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Command="{Binding CreateNewCompanyCommand}">
-                <PathIcon Data="{StaticResource add_square_regular}" />
-            </Button>
-        </Panel>
 
+        </Panel>
         <Panel
             Grid.Row="1"
             Grid.Column="1"
             Margin="0,0,40,40">
-            <ExperimentalAcrylicBorder IsHitTestVisible="False">
-                <ExperimentalAcrylicBorder.Material>
-                    <ExperimentalAcrylicMaterial
-                        BackgroundSource="Digger"
-                        MaterialOpacity="0.65"
-                        TintColor="Black"
-                        TintOpacity="1" />
-                </ExperimentalAcrylicBorder.Material>
-            </ExperimentalAcrylicBorder>
             <DataGrid
                 Margin="20"
                 BorderBrush="Gray"
@@ -56,17 +48,14 @@
                 CanUserSortColumns="False"
                 GridLinesVisibility="All"
                 IsReadOnly="True"
-                ItemsSource="{Binding FilteredCompanies}"
-                SelectedItem="{Binding SelectedCompany}"
+                ItemsSource="{Binding Company.ExcelFiles}"
+                SelectedItem="{Binding SelectedExcelFile}"
                 SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                    <DataGridTextColumn Binding="{Binding City}" Header="City" />
-                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number" />
-                    <DataGridTextColumn Binding="{Binding Email}" Header="E-Mail" />
-                    <!--  TO BE DONE:  -->
-                    <DataGridTextColumn Binding="{Binding Email}" Header="Excel File Count" />
-                    <DataGridTextColumn Binding="{Binding Email}" Header="PDF File Count" />
+                    <DataGridTextColumn Binding="{Binding FileSize}" Header="File Size (Bytes)" />
+                    <DataGridTextColumn Binding="{Binding FilePath}" Header="File Path" />
+                    <DataGridTextColumn Binding="{Binding IsPDFGenerated}" Header="Is PDF Generated" />
                 </DataGrid.Columns>
             </DataGrid>
         </Panel>

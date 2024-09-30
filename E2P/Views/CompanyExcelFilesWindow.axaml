@@ -33,7 +33,12 @@
                 VerticalAlignment="Center"
                 Text="{Binding SearchQuery, Mode=TwoWay}"
                 Watermark="Search Company..." />
-
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Command="{Binding AddNewExcelFile}">
+                <PathIcon Data="{StaticResource add_square_regular}" />
+            </Button>
         </Panel>
         <Panel
             Grid.Row="1"
@@ -48,7 +53,7 @@
                 CanUserSortColumns="False"
                 GridLinesVisibility="All"
                 IsReadOnly="True"
-                ItemsSource="{Binding Company.ExcelFiles}"
+                ItemsSource="{Binding FilteredExcelFiles}"
                 SelectedItem="{Binding SelectedExcelFile}"
                 SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>

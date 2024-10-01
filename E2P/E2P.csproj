@@ -53,6 +53,9 @@
     <Compile Update="DatabaseInit.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="Views\SidebarTemplate.axaml.cs">
+      <DependentUpon>SidebarTemplate.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

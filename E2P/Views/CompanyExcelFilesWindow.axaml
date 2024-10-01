@@ -16,34 +16,62 @@
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Grid ColumnDefinitions=".1*, 0.9*" RowDefinitions="0.1*, 0.9*">
+        <Panel Grid.Row="1" Grid.Column="0">
+            <views:SidebarTemplate />
+        </Panel>
         <Panel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="0,40,40,5">
-            <TextBlock
-                Margin="20"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="16"
-                FontWeight="Bold"
-                Text="{Binding Company.Name}" />
-            <TextBox
-                Width="300"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Search Company..." />
-            <Button
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Command="{Binding AddNewExcelFile}">
-                <PathIcon Data="{StaticResource add_square_regular}" />
-            </Button>
+            Margin="20,20,60,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Command="{Binding NavigateBackCommand}">
+                        <PathIcon
+                            Width="25"
+                            Height="25"
+                            Data="{StaticResource document_arrow_left_regular}" />
+                    </Button>
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Text="{Binding Company.Name}" />
+                </StackPanel>
+
+                <TextBox
+                    Grid.Column="1"
+                    Width="300"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding SearchQuery, Mode=TwoWay}"
+                    Watermark="Search Company..." />
+
+                <Button
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Command="{Binding AddNewExcelFile}">
+                    <PathIcon Data="{StaticResource add_square_regular}" />
+                </Button>
+            </Grid>
         </Panel>
         <Panel
             Grid.Row="1"
             Grid.Column="1"
-            Margin="0,0,40,40">
+            Margin="0,0,40,10">
             <DataGrid
                 Margin="20"
                 BorderBrush="Gray"

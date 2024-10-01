@@ -1,5 +1,9 @@
-﻿using E2P.Models;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
+using E2P.Models;
 using E2P.Services;
+using E2P.Views;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -13,27 +17,41 @@ namespace E2P.ViewModels
     {
         private string _searchQuery;
         private ExcelFile _selectedExcelFile;
-
         public Company Company { get; set; }
         public List<ExcelFile> ExcelFiles { get; set; } = new();
         public ObservableCollection<ExcelFile> FilteredExcelFiles { get; set; }
         public ICommand AddNewExcelFile { get; }
+        public ICommand NavigateBackCommand { get; }
 
         public CompanyExcelFilesViewModel(Company company)
         {
             Company = company;
             FilteredExcelFiles = new ObservableCollection<ExcelFile>(Company.ExcelFiles);
+            NavigateBackCommand = ReactiveCommand.Create(NavigateBack);
 
             AddNewExcelFile = ReactiveCommand.CreateFromTask(async () =>
             {
-                var company = new ExcelFile();
-                var result = await ShowDialog.Handle(company);
-
-                if (result != null)
+                var topLevel = Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop ? desktop.MainWindow : null;
+                if (topLevel != null && topLevel.StorageProvider.CanOpen)
                 {
-                    await _companyService.CreateAsync(result);
-                    Companies.Add(result);
-                    FilterCompanies();
+                    var options = new FilePickerOpenOptions
+                    {
+                        AllowMultiple = false,
+                        FileTypeFilter = new List<FilePickerFileType>
+                        {
+                            new FilePickerFileType("Excel Files")
+                            {
+                                Patterns = new[] { "*.xlsx", "*.xls" }
+                            }
+                        }
+                    };
+
+                    var result = await topLevel.StorageProvider.OpenFilePickerAsync(options);
+                    if (result.Any())
+                    {
+                        var selectedFilePath = result.First().Path.LocalPath;
+                        OpenExcelFileWindow(selectedFilePath);
+                    }
                 }
             });
         }
@@ -54,6 +72,17 @@ namespace E2P.ViewModels
             }
         }
 
+        private void OpenExcelFileWindow(string filePath)
+        {
+            var excelFileViewModel = new ExcelFileViewModel(filePath);
+            var excelFileWindow = new ExcelFileWindow
+            {
+                DataContext = excelFileViewModel
+            };
+            excelFileWindow.Show();
+        }
+
+
         private void FilterCompanyExcelFiles()
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))
@@ -66,8 +95,15 @@ namespace E2P.ViewModels
                     Company.ExcelFiles.Where(c => c.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
             }
 
-            // Notify that the FilteredExcelFiles has changed so the DataGrid can update
             this.RaisePropertyChanged(nameof(FilteredExcelFiles));
+        }
+
+        // Navigate back to the MainWindow
+        private void NavigateBack()
+        {
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            
         }
     }
 }

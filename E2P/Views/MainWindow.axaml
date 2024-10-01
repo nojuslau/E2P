@@ -16,10 +16,17 @@
     mc:Ignorable="d">
 
     <Grid ColumnDefinitions=".1*, 0.9*" RowDefinitions="0.1*, 0.9*">
+        <Panel Grid.Row="1" Grid.Column="0">
+            <views:SidebarTemplate />
+        </Panel>
         <Panel
             Grid.Row="0"
             Grid.Column="1"
             Margin="0,40,40,5">
+            <Label
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Companies" />
             <TextBox
                 Width="300"
                 HorizontalAlignment="Center"
@@ -37,18 +44,10 @@
         <Panel
             Grid.Row="1"
             Grid.Column="1"
-            Margin="0,0,40,40">
-            <ExperimentalAcrylicBorder IsHitTestVisible="False">
-                <ExperimentalAcrylicBorder.Material>
-                    <ExperimentalAcrylicMaterial
-                        BackgroundSource="Digger"
-                        MaterialOpacity="0.65"
-                        TintColor="Black"
-                        TintOpacity="1" />
-                </ExperimentalAcrylicBorder.Material>
-            </ExperimentalAcrylicBorder>
+            Margin="0,0,40,10">
             <DataGrid
                 Margin="20"
+                Background="Black"
                 BorderBrush="Gray"
                 BorderThickness="1"
                 CanUserReorderColumns="True"
@@ -64,8 +63,8 @@
                     <DataGridTextColumn Binding="{Binding City}" Header="City" />
                     <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number" />
                     <DataGridTextColumn Binding="{Binding Email}" Header="E-Mail" />
+                    <DataGridTextColumn Binding="{Binding ExcelFiles.Count}" Header="Excel File Count" />
                     <!--  TO BE DONE:  -->
-                    <DataGridTextColumn Binding="{Binding Email}" Header="Excel File Count" />
                     <DataGridTextColumn Binding="{Binding Email}" Header="PDF File Count" />
                 </DataGrid.Columns>
             </DataGrid>

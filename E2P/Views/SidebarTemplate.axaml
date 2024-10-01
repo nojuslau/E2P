@@ -1,0 +1,49 @@
+<UserControl
+    x:Class="E2P.Views.SidebarTemplate"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:E2P.ViewModels"
+    x:DataType="viewModels:ViewModelBase"
+    mc:Ignorable="d">
+    <Border BorderBrush="Gray" BorderThickness="0,0,1,0">
+        <Grid RowDefinitions="*, Auto">
+            <!--  Buttons for navigation  -->
+            <StackPanel Margin="10" VerticalAlignment="Top">
+                <Button
+                    Margin="5"
+                    Command="{Binding NavigateToCompaniesCommand}"
+                    Content="Companies" />
+                <Button
+                    Margin="5"
+                    Command="{Binding NavigateToExcelFilesCommand}"
+                    Content="Excel Files" />
+                <Button
+                    Margin="5"
+                    Command="{Binding NavigateToSettingsCommand}"
+                    Content="Settings" />
+            </StackPanel>
+
+            <!--  Watermark at the bottom  -->
+            <StackPanel Margin="10" VerticalAlignment="Bottom">
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,0,0,2"
+                    HorizontalAlignment="Left"
+                    FontSize="9"
+                    FontStyle="Italic"
+                    Opacity="0.3"
+                    Text="All Rights Reserved:" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,0,0,10"
+                    HorizontalAlignment="Left"
+                    FontSize="9"
+                    FontStyle="Italic"
+                    Opacity="0.3"
+                    Text="NorthKite Limited. 2024" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

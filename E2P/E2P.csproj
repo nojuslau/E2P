@@ -36,6 +36,9 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0" />
     <PackageReference Include="Awesome.Net.WritableOptions" Version="3.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="FluentAvalonia.BreadcrumbBar" Version="2.0.2" />
+    <PackageReference Include="FluentAvalonia.ProgressRing" Version="1.69.2" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -47,6 +50,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="ReactiveProperty" Version="9.6.0" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

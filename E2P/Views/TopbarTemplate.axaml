@@ -1,0 +1,27 @@
+<UserControl
+    x:Class="E2P.Views.TopbarTemplate"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:FluentAvalonia.UI.Controls"
+    xmlns:viewModels="clr-namespace:E2P.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="viewModels:ViewModelBase"
+    mc:Ignorable="d">
+    <StackPanel
+        Grid.Row="0"
+        Grid.Column="1"
+        Margin="16"
+        Spacing="8">
+        <ui:InfoBar x:Name="InfoBar" />
+        <ui:BreadcrumbBar x:Name="BreadcrumbBar" ItemsSource="{Binding Breadcrumbs}">
+            <ui:BreadcrumbBar.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:BreadcrumbViewModel">
+                    <ui:BreadcrumbBarItem Content="{Binding Text}" />
+                </DataTemplate>
+            </ui:BreadcrumbBar.ItemTemplate>
+        </ui:BreadcrumbBar>
+    </StackPanel>
+</UserControl>

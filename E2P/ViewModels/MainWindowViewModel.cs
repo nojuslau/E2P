@@ -1,5 +1,6 @@
 ﻿using E2P.Models;
 using E2P.Services;
+using Reactive.Bindings;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private string _searchQuery;
 
     public event Action<Company> CompanySelected;
-
     public Interaction<CompanyViewModel, Company?> ShowDialog { get; }
     public ObservableCollection<Company> FilteredCompanies { get; set; }
     public List<Company> Companies { get; set; } = new();
@@ -30,7 +30,7 @@ public partial class MainWindowViewModel : ViewModelBase
         ShowDialog = new Interaction<CompanyViewModel, Company?> ();
         LoadCompanies();
 
-        CreateNewCompanyCommand = ReactiveCommand.CreateFromTask(async () =>
+        CreateNewCompanyCommand = ReactiveUI.ReactiveCommand.CreateFromTask(async () =>
         {
             var company = new CompanyViewModel();
             var result = await ShowDialog.Handle(company);
@@ -42,6 +42,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 FilterCompanies();
             }
         });
+
     }
 
     private async void LoadCompanies()

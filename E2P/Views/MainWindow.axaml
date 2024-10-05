@@ -16,14 +16,15 @@
     mc:Ignorable="d">
 
     <Grid ColumnDefinitions=".1*, 0.9*" RowDefinitions="0.1*, 0.9*">
-        <Panel Grid.Row="1" Grid.Column="0">
+        <Panel Grid.RowSpan="2" Grid.Column="0">
             <views:SidebarTemplate />
         </Panel>
         <Panel
             Grid.Row="0"
             Grid.Column="1"
-            Margin="0,40,40,5">
-            <Label
+            Margin="5,10,40,5">
+            <views:TopbarTemplate />
+            <!--<Label
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Content="Companies" />
@@ -38,15 +39,14 @@
                 VerticalAlignment="Center"
                 Command="{Binding CreateNewCompanyCommand}">
                 <PathIcon Data="{StaticResource add_square_regular}" />
-            </Button>
+            </Button>-->
         </Panel>
 
         <Panel
             Grid.Row="1"
             Grid.Column="1"
-            Margin="0,0,40,10">
+            Margin="0,10,40,10">
             <DataGrid
-                Margin="20"
                 Background="Black"
                 BorderBrush="Gray"
                 BorderThickness="1"

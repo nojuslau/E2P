@@ -1,0 +1,76 @@
+<UserControl
+    x:Class="E2P.Views.CompaniesUserControl"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:E2P.Views"
+    xmlns:vm="using:E2P.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:CompaniesViewModel"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!--  First Row: Companies Search and Add  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Header and Search Bar  -->
+        <StackPanel
+            Grid.Row="0"
+            Margin="0,40,40,5"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Companies" />
+            <TextBox
+                Width="300"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding SearchQuery, Mode=TwoWay}"
+                Watermark="Search Company..." />
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Command="{Binding CreateNewCompanyCommand}">
+                <PathIcon Data="{StaticResource add_square_regular}" />
+            </Button>
+        </StackPanel>
+
+        <!--  Data Grid for Companies  -->
+        <DataGrid
+            Grid.Row="1"
+            Margin="20"
+            Background="Black"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CanUserReorderColumns="True"
+            CanUserResizeColumns="True"
+            CanUserSortColumns="False"
+            GridLinesVisibility="All"
+            IsReadOnly="True"
+            ItemsSource="{Binding FilteredCompanies}"
+            SelectedItem="{Binding SelectedCompany}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding City}" Header="City" />
+                <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number" />
+                <DataGridTextColumn Binding="{Binding Email}" Header="E-Mail" />
+                <DataGridTextColumn Binding="{Binding ExcelFiles.Count}" Header="Excel File Count" />
+                <!--  TO BE DONE: Add logic for PDF File Count  -->
+                <DataGridTextColumn Binding="{Binding Email}" Header="PDF File Count" />
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <KeyBinding
+                    Key="Enter"
+                    Command="{Binding SelectCompanyCommand}"
+                    CommandParameter="{Binding SelectedCompany}" />
+            </DataGrid.InputBindings>
+        </DataGrid>
+    </Grid>
+</UserControl>

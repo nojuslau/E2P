@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:reactive="using:ReactiveUI"
     xmlns:views="clr-namespace:E2P.Views"
     xmlns:vm="using:E2P.ViewModels"
     Title="E2P"
@@ -19,55 +20,11 @@
         <Panel Grid.Row="1" Grid.Column="0">
             <views:SidebarTemplate />
         </Panel>
-        <Panel
-            Grid.Row="0"
+        <ContentControl
+            Grid.RowSpan="2"
             Grid.Column="1"
-            Margin="0,40,40,5">
-            <Label
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="Companies" />
-            <TextBox
-                Width="300"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding SearchQuery, Mode=TwoWay}"
-                Watermark="Search Company..." />
-            <Button
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Command="{Binding CreateNewCompanyCommand}">
-                <PathIcon Data="{StaticResource add_square_regular}" />
-            </Button>
-        </Panel>
-
-        <Panel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="0,0,40,10">
-            <DataGrid
-                Margin="20"
-                Background="Black"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                CanUserReorderColumns="True"
-                CanUserResizeColumns="True"
-                CanUserSortColumns="False"
-                GridLinesVisibility="All"
-                IsReadOnly="True"
-                ItemsSource="{Binding FilteredCompanies}"
-                SelectedItem="{Binding SelectedCompany}"
-                SelectionChanged="DataGrid_SelectionChanged">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                    <DataGridTextColumn Binding="{Binding City}" Header="City" />
-                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="Phone Number" />
-                    <DataGridTextColumn Binding="{Binding Email}" Header="E-Mail" />
-                    <DataGridTextColumn Binding="{Binding ExcelFiles.Count}" Header="Excel File Count" />
-                    <!--  TO BE DONE:  -->
-                    <DataGridTextColumn Binding="{Binding Email}" Header="PDF File Count" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Panel>
+            Margin="20">
+            <reactive:RoutedViewHost Router="{Binding Router}" />
+        </ContentControl>
     </Grid>
 </Window>

@@ -1,8 +1,6 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using E2P.Models;
-using E2P.Services;
 using E2P.Views;
 using ReactiveUI;
 using System;
@@ -13,18 +11,22 @@ using System.Windows.Input;
 
 namespace E2P.ViewModels
 {
-    public class CompanyExcelFilesViewModel : ViewModelBase
+    public class ExcelFilesViewModel : ViewModelBase, IRoutableViewModel
     {
         private string _searchQuery;
         private ExcelFile _selectedExcelFile;
+
+        public IScreen HostScreen { get; }
+        public string? UrlPathSegment { get; } = "ExcelFilesPage";
         public Company Company { get; set; }
         public List<ExcelFile> ExcelFiles { get; set; } = new();
         public ObservableCollection<ExcelFile> FilteredExcelFiles { get; set; }
         public ICommand AddNewExcelFile { get; }
         public ICommand NavigateBackCommand { get; }
 
-        public CompanyExcelFilesViewModel(Company company)
+        public ExcelFilesViewModel(Company company, IScreen screen)
         {
+            HostScreen = screen;
             Company = company;
             FilteredExcelFiles = new ObservableCollection<ExcelFile>(Company.ExcelFiles);
             NavigateBackCommand = ReactiveCommand.Create(NavigateBack);
@@ -103,7 +105,6 @@ namespace E2P.ViewModels
         {
             var mainWindow = new MainWindow();
             mainWindow.Show();
-            
         }
     }
 }

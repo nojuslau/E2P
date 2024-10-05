@@ -3,11 +3,11 @@ using ReactiveUI;
 using System.Reactive;
 
 namespace E2P.ViewModels;
-public class CompanyViewModel : ViewModelBase
+public class CompanyDialogViewModel : ViewModelBase
 {
     public Company Company { get; set; }
     public ReactiveCommand<Unit, Company?> CreateNewCompanyCommand { get; }
-    public CompanyViewModel() 
+    public CompanyDialogViewModel() 
     {
         Company = new Company();
 

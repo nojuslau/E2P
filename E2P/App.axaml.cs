@@ -45,7 +45,7 @@ namespace E2P
 
                     desktop.MainWindow = new MainWindow
                     {
-                        DataContext = new MainWindowViewModel(_serviceCollection.BuildServiceProvider().GetRequiredService<CompanyService>()),
+                        DataContext = new MainWindowViewModel(_serviceCollection.BuildServiceProvider()),
                     };
                 }
             }

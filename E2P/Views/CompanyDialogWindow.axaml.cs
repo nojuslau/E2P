@@ -3,11 +3,11 @@ using E2P.ViewModels;
 using ReactiveUI;
 using System;
 
-namespace E2P;
+namespace E2P.Views;
 
-public partial class CompanyWindow : ReactiveWindow<CompanyViewModel>
+public partial class CompanyDialogWindow : ReactiveWindow<CompanyDialogViewModel>
 {
-    public CompanyWindow()
+    public CompanyDialogWindow()
     {
         InitializeComponent();
 

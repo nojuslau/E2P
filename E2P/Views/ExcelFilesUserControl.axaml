@@ -1,33 +1,32 @@
-<Window
-    x:Class="E2P.CompanyExcelFilesWindow"
+<UserControl
+    x:Class="E2P.Views.ExcelFilesUserControl"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:E2P.Views"
-    xmlns:vm="clr-namespace:E2P.ViewModels"
-    Title="CompanyExcelFilesWindow"
+    xmlns:vm="using:E2P.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:DataType="vm:ExcelFilesViewModel"
-    Background="Transparent"
-    ExtendClientAreaToDecorationsHint="True"
-    TransparencyLevelHint="AcrylicBlur"
-    WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
-    <Grid ColumnDefinitions=".1*, 0.9*" RowDefinitions="0.1*, 0.9*">
-        <Panel Grid.Row="1" Grid.Column="0">
-            <views:SidebarTemplate />
-        </Panel>
-        <Panel
+
+    <Grid>
+        <!--  First Row: Companies Search and Add  -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
             Grid.Row="0"
-            Grid.Column="1"
-            Margin="20,20,60,5">
+            Margin="0,40,40,5"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel
@@ -67,30 +66,27 @@
                     <PathIcon Data="{StaticResource add_square_regular}" />
                 </Button>
             </Grid>
-        </Panel>
-        <Panel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="0,0,40,10">
-            <DataGrid
-                Margin="20"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                CanUserReorderColumns="True"
-                CanUserResizeColumns="True"
-                CanUserSortColumns="False"
-                GridLinesVisibility="All"
-                IsReadOnly="True"
-                ItemsSource="{Binding FilteredExcelFiles}"
-                SelectedItem="{Binding SelectedExcelFile}"
-                SelectionChanged="DataGrid_SelectionChanged">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                    <DataGridTextColumn Binding="{Binding FileSize}" Header="File Size (Bytes)" />
-                    <DataGridTextColumn Binding="{Binding FilePath}" Header="File Path" />
-                    <DataGridTextColumn Binding="{Binding IsPDFGenerated}" Header="Is PDF Generated" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Panel>
+        </StackPanel>
+
+        <!--  Data Grid for Companies  -->
+        <DataGrid
+            Margin="20"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CanUserReorderColumns="True"
+            CanUserResizeColumns="True"
+            CanUserSortColumns="False"
+            GridLinesVisibility="All"
+            IsReadOnly="True"
+            ItemsSource="{Binding FilteredExcelFiles}"
+            SelectedItem="{Binding SelectedExcelFile}"
+            SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding FileSize}" Header="File Size (Bytes)" />
+                <DataGridTextColumn Binding="{Binding FilePath}" Header="File Path" />
+                <DataGridTextColumn Binding="{Binding IsPDFGenerated}" Header="Is PDF Generated" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
-</Window>
+</UserControl>

@@ -1,85 +1,58 @@
-﻿using E2P.Models;
+﻿using Avalonia.Controls;
 using E2P.Services;
+using E2P.Views;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Windows.Input;
+using System.Reactive;
 
 namespace E2P.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IScreen
 {
-    private readonly CompanyService _companyService;
-    private Company _selectedCompany;
-    private string _searchQuery;
+    private IServiceProvider _serviceProvider;
+    private UserControl _currentPage;
+    private string _headerTitle;
+    public RoutingState Router { get; } = new RoutingState();
+    public ReactiveCommand<Unit, Unit> NavigateToCompaniesCommand { get; }
+    public ReactiveCommand<Unit, Unit> NavigateToExcelFilesCommand { get; }
 
-    public event Action<Company> CompanySelected;
-
-    public Interaction<CompanyViewModel, Company?> ShowDialog { get; }
-    public ObservableCollection<Company> FilteredCompanies { get; set; }
-    public List<Company> Companies { get; set; } = new();
-    public CompanyService CompanyService { get; }
-    public ICommand CreateNewCompanyCommand { get; }
-
-    public MainWindowViewModel(CompanyService companyService)
+    public MainWindowViewModel(IServiceProvider serviceProvider)
     {
-        _companyService = companyService;
-        ShowDialog = new Interaction<CompanyViewModel, Company?> ();
-        LoadCompanies();
+        _serviceProvider = serviceProvider;
+        CurrentPage = new CompaniesUserControl(_serviceProvider.GetRequiredService<CompanyService>());
+        var companyService = _serviceProvider.GetRequiredService<CompanyService>();
+        HeaderTitle = "Companies";
 
-        CreateNewCompanyCommand = ReactiveCommand.CreateFromTask(async () =>
-        {
-            var company = new CompanyViewModel();
-            var result = await ShowDialog.Handle(company);
+        // Initialize the navigation commands
+        //NavigateToCompaniesCommand = ReactiveCommand.CreateFromObservable(
+        //    () => Router.Navigate.Execute(new CompaniesViewModel(this)));
 
-            if (result != null)
-            {
-                await _companyService.CreateAsync(result);
-                Companies.Add(result);
-                FilterCompanies();
-            }
-        });
+        //NavigateToExcelFilesCommand = ReactiveCommand.CreateFromObservable(
+        //    () => Router.Navigate.Execute(new ExcelFilesViewModel(this)));
     }
 
-    private async void LoadCompanies()
+    public UserControl CurrentPage
     {
-        Companies = (await _companyService.GetAllAsync()).ToList();
-        FilteredCompanies = new ObservableCollection<Company>(Companies);
+        get => _currentPage;
+        set => this.RaiseAndSetIfChanged(ref _currentPage, value);
     }
 
-    public string SearchQuery
+    public string HeaderTitle
     {
-        get => _searchQuery;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _searchQuery, value);
-            FilterCompanies();
-        }
+        get => _headerTitle;
+        set => this.RaiseAndSetIfChanged(ref _headerTitle, value);
     }
 
-    private void FilterCompanies()
+    private void NavigateToCompanies()
     {
-        if (string.IsNullOrWhiteSpace(SearchQuery))
-        {
-            FilteredCompanies = new ObservableCollection<Company>(Companies);
-        }
-        else
-        {
-            FilteredCompanies = new ObservableCollection<Company>(
-                Companies.Where(c => c.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
-        }
-        this.RaisePropertyChanged(nameof(FilteredCompanies));
+        CurrentPage = new CompaniesUserControl(_serviceProvider.GetRequiredService<CompanyService>());
+        HeaderTitle = "Companies";
     }
 
-    public Company SelectedCompany
+    private void NavigateToExcelFiles()
     {
-        get => _selectedCompany;
-        set
-        {
-            CompanySelected?.Invoke(_selectedCompany);
-        }
+        CurrentPage = new ExcelFilesUserControl();
+        HeaderTitle = "Excel Files";
     }
 }

@@ -2,11 +2,11 @@ using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using E2P.ViewModels;
 
-namespace E2P;
+namespace E2P.Views;
 
-public partial class CompanyExcelFilesWindow : ReactiveWindow<ExcelFilesViewModel>
+public partial class ExcelFilesUserControl : ReactiveUserControl<ExcelFilesViewModel>
 {
-    public CompanyExcelFilesWindow()
+    public ExcelFilesUserControl()
     {
         InitializeComponent();
     }
